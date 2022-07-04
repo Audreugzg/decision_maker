@@ -7,6 +7,13 @@ const pollQueries = require('../db/poll-queries'); // ADD DB QUERIES
   });
   router.post("/create", (req, res) => {
     pollQueries.createPoll()
+      .then((result) => {
+        const adminLink = result.rows[0].admin
+        const voteLink = result.rows[0].vote
+        const templateVars = {admin: adminLink,
+           vote: voteLink}
+        res.render("submitted", templateVars);
+      })
   });
   router.get("/:id", (req, res) => {
     pollQueries.getPollResult(req.params.id)
