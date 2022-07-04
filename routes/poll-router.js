@@ -2,8 +2,6 @@ const express = require('express');
 const router  = express.Router();
 const pollQueries = require('../db/poll-queries'); // ADD DB QUERIES
 
-module.exports = (db) => {
-
   router.get("/create", (req, res) => {
     res.render("form");
   });
@@ -17,5 +15,4 @@ module.exports = (db) => {
       })
   });
 
-  return router;
-};
+module.exports = router;
