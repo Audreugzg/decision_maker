@@ -1,3 +1,4 @@
+const { Pool } = require("pg");
 let dbParams = {};
 if (process.env.DATABASE_URL) {
   dbParams.connectionString = process.env.DATABASE_URL;
@@ -10,5 +11,7 @@ if (process.env.DATABASE_URL) {
     database: process.env.DB_NAME
   };
 }
+const db = new Pool(dbParams);
+db.connect();
 
-module.exports = dbParams;
+module.exports = db;
