@@ -9,7 +9,7 @@ const app = express();
 const morgan = require("morgan");
 
 // Database
-const db = require("./db/db.js");
+const db = require("./db/dbconnection");
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
