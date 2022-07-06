@@ -38,6 +38,7 @@ module.exports = (db) => {
         console.log(options);
         if (!Array.isArray(options)) {
           return db
+<<<<<<< HEAD
           .query(`INSERT INTO options(user_id,title_id,choice,description)
           VALUES($1,$2,$3,$4)
           RETURNING *;`, [result.rows[0].user_id,result.rows[0].id,options,descriptions])
@@ -46,12 +47,21 @@ module.exports = (db) => {
 
           });
 
+=======
+          .query(`INSERT INTO options(user_id,title_id,options,description)
+          VALUES($1,$2,$3,$4)
+          RETURNING *;`, [result.rows[0].user_id,result.rows[0].id,options,descriptions])
+          .then(()=>{
+            res.render(`index`);
+          });
+>>>>>>> cc42a761520863a51bd21a48bca4d9b38a73ab72
         }else{
           options.forEach((option, index) => {
             return db
             .query(`INSERT INTO options(user_id,title_id,choice,description)
             VALUES($1,$2,$3,$4)
             RETURNING *;`, [result.rows[0].user_id,result.rows[0].id,option,descriptions[index]])
+<<<<<<< HEAD
 
           });
         }
@@ -63,16 +73,26 @@ module.exports = (db) => {
         res.render(`thanks`);
       })
 
+=======
+          });
+        }
+        res.render('complete', poll_key);
+      })
+>>>>>>> cc42a761520863a51bd21a48bca4d9b38a73ab72
       .catch(err => {
         res
           .status(500)
           .json({ error: err.message });
       });
     })
+<<<<<<< HEAD
 
 
   });
 
+=======
+  });
+>>>>>>> cc42a761520863a51bd21a48bca4d9b38a73ab72
   router.get("/", (req, res) => {
     db.query(`SELECT * FROM options`)
       .then(data => {
@@ -80,7 +100,10 @@ module.exports = (db) => {
         res.json({i});
       })
   });
+<<<<<<< HEAD
 
+=======
+>>>>>>> cc42a761520863a51bd21a48bca4d9b38a73ab72
   return router;
 };
 

@@ -38,32 +38,17 @@ app.use(express.static("public"));
 const usersRoutes = require("./routes/users");
 const pollsRoutes = require("./routes/polls");
 const voteRoutes = require("./routes/vote");
+const resultRoutes = require("./routes/result")
+const renderingRoutes = require("./routes/rendering")
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/api/users", usersRoutes(db));
 app.use("/api/polls", pollsRoutes(db));
 app.use("/api/vote", voteRoutes(db));
+app.use("/api/result", resultRoutes(db));
+app.use("/", renderingRoutes(db));
 // Note: mount other resources here, using the same pattern above
-
-// Home page
-// Warning: avoid creating more routes in this file!
-// Separate them into separate routes files (see above).
-
-app.get("/", (req, res) => {
-  res.render("form");
-});
-
-///////// MADE THIS JUST TO SEE THE RESULTS OF LAYOUT ON THE PAGE ///////////
-app.get("/form", (req, res) => {////////////////////////////////////////////
-  res.render ("form");//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-})
-///////// MADE THIS JUST TO SEE THE RESULTS OF LAYOUT ON THE PAGE ///////////
-app.get("/vote", (req, res) => {////////////////////////////////////////////
-  res.render ("vote");//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
