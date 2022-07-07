@@ -14,12 +14,21 @@ module.exports = (db) => {
     res.render("vote");
   });
 
+  router.get("/results", (req, res) => {
+    res.render("results");
+  });
+
   router.get("/complete", (req, res) => {
     let poll_key = { poll_key: req.params.key };
     const voteUrl = `api/vote/${poll_key}`;
     const resultUrl = `api/result/${poll_key}`;
     const templateVariables = { voteUrl, resultUrl };
     res.render("complete", templateVariables);
+  });
+
+  router.get("/test", (req, res) => {
+    console.log("sunnyday");
+    res.render('test');
   });
 
   router.get("/polls/:id", (req, res) => {

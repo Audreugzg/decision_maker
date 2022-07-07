@@ -1,2 +1,2 @@
-const dbParams = require("../../lib/db")
+// const dbParams = require("../../lib/db")
 

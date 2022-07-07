@@ -7,12 +7,6 @@ $(document).ready(function () {
 
     })
 
-
-
-
-
-
-
   const option = function() {
     const $options = $(
       `<div class="bar-chart-div">

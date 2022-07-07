@@ -1,13 +1,29 @@
 $(document).ready(function () {
-$(".pollSubmission").submit(function(e) {
-  const optionOrders = [];
-  $(this).find(".options-test").each(function(i,optionElement) {
-    console.log($(optionElement).data("option"));
-    optionOrders.push($(optionElement).data("option"));
-  })
-  const pageUrl = $(location).attr("href").split("/");
-  const key = pageUrl[5];
-  $.ajax('/api/vote/:key', {method: 'POST', data: {optionOrders, key}}})
+  $(".pollSubmission").submit(function (e) {
+    e.preventDefault();
+    const optionOrders = [];
+    $(this)
+      .find(".options-test")
+      .each(function (i, optionElement) {
+        console.log($(optionElement).data("option"));
+        optionOrders.push($(optionElement).data("option"));
+      });
+    const pageUrl = $(location).attr("href").split("/");
+    const key = pageUrl[5];
+    $.ajax({
+      type: "POST",
+      url: "/api/vote/:key",
+      data: { optionOrders, key },
+      dataType: "json",
+    }).catch(function (data) {if (data.statusText === 'OK') {window.location.href="/results"}});
+    // }).done(function (data) {
+    //   debugger;
+    //   // window.location.href = "/test";
+    // }).fail(function (err) {
+    //   debugger;
+    //   console.log("fail-in-ajax");
+    // });
+  });
 
   ///// FUNCTIONALITY OF DRAG AND DROP //////
 
@@ -67,7 +83,7 @@ $(".pollSubmission").submit(function(e) {
     let indexxO = $(this).index();
 
     for (let item in allMovies) {
-     // orderOfMovies.push(item)
+      // orderOfMovies.push(item)
       if (allMovies[item].outerHTML === outer) indexxO = item;
     }
 
@@ -77,7 +93,6 @@ $(".pollSubmission").submit(function(e) {
       allDescriptions[indexxO].classList.add("show-description");
     }
   });
-
 
   //// FUNCTIONALITY OF DRAGGIN CLOSING DESCRIPTION ////
 

@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
-var nodemailer = require("nodemailer");
+// var nodemailer = require("nodemailer");
 
 module.exports = (db) => {
   router.get("/:key", (req, res) => {
     let poll_key = { poll_key: req.params.key };
-    console.log(poll_key);
     db.query(
       `SELECT titles.title, options.choice,options.description
     FROM options
@@ -36,10 +35,12 @@ module.exports = (db) => {
   });
 
   router.post("/:key", (req, res) => {
+    console.log(req.body);
     let poll_key = { poll_key: req.body.key };
     const choices = req.body.optionOrders;
     let length = choices.length;
-    choices.forEach((item) => {
+    // for await (const item of choices) {
+    choices.forEach(async (item) => {
       db.query(
         `SELECT options.id, options.title_id, users.email,
         titles.title
@@ -52,12 +53,8 @@ module.exports = (db) => {
         const optionId = data.rows[0].id;
         const titleID = data.rows[0].title_id;
         const score = choices.indexOf(item);
-        console.log(optionId);
-        console.log(titleID);
-        console.log(score);
         const email = data.rows[0].email;
         const title = data.rows[0].title;
-        console.log(email);
         db.query(
           `INSERT INTO choices
         (option_id, title_id, score) VALUES ($1, $2, $3);`,
@@ -65,43 +62,46 @@ module.exports = (db) => {
         ).catch((err) => {
           res.status(500).json({ error: err.message });
         });
+        // if (length > 1) {
+        //   length = length - 1;
+        // } else {
+        //   var transport = nodemailer.createTransport({
+        //     host: "smtp.zoho.com",
+        //     port: 465,
+        //     secure: true, //ssl
+        //     auth: {
+        //       user: process.env.EMAIL,
+        //       pass: process.env.PASSWORD,
+        //     },
+        //   });
 
-        if (length > 1) {
-          length = length - 1;
-        } else {
-          var transport = nodemailer.createTransport({
-            host: "smtp.zoho.com",
-            port: 465,
-            secure: true, //ssl
-            auth: {
-              user: process.env.EMAIL,
-              pass: process.env.PASSWORD,
-            },
-          });
-
-          var mailOptions = {
-            from: "decisionmakerapp007@zohomail.com",
-            to: email,
-            subject: `your friends just voted on your poll`,
-            text: `
-            Hello!
-            your friend has just voted on your poll: ${title}. Click below to see the updated results.
-            Admin Link: http://localhost:8080/api/result/${poll_key.poll_key}
-            Share the link below to get more responses.
-            Voting Link: http://localhost:8080/api/vote/${poll_key.poll_key}
-            Thank you!`,
-          };
-          transport.sendMail(mailOptions, function (error, info) {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log("Email sent: " + info.response);
-            }
-          });
-        }
+        //   var mailOptions = {
+        //     from: "decisionmakerapp007@zohomail.com",
+        //     to: email,
+        //     subject: `your friends just v  console.log(optionOrders);oted on your poll`,
+        //     text: `
+        //     Hello!
+        //     your friend has just voted on your poll: ${title}. Click below to see the updated results.
+        //     Admin Link: http://localhost:8080/api/result/${poll_key.poll_key}
+        //     Share the link below to get more responses.
+        //     Voting Link: http://localhost:8080/api/vote/${poll_key.poll_key}
+        //     Thank you!`,
+        //   };
+        //   transport.sendMail(mailOptions, function (error, info) {
+        //     if (error) {
+        //       console.log(error);
+        //     } else {
+        //       console.log("Email sent: " + info.response);
+        //     }
+        //   });
+        //   console.log('1LETS REDIRECCT TO /TEST')
+        //   return res.render('test');
+        // }
+      }).catch((err) => {
+        console.log(err.message);
       });
-    });
-    res.render('complete', poll_key.poll_key)
+    })
+    res.render('results', {key: 'rende result page'});
   });
   return router;
 };
