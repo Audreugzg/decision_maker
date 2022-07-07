@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-// var nodemailer = require("nodemailer");
+var nodemailer = require("nodemailer");
 
 module.exports = (db) => {
   router.get("/:key", (req, res) => {
@@ -61,7 +61,8 @@ module.exports = (db) => {
           [optionId, titleID, score]
         ).catch((err) => {
           res.status(500).json({ error: err.message });
-        });
+        })
+
         if (length > 1) {
           length = length - 1;
         } else {
@@ -94,8 +95,6 @@ module.exports = (db) => {
               console.log("Email sent: " + info.response);
             }
           });
-          console.log('1LETS REDIRECCT TO /TEST')
-          return res.render('test');
         }
       }).catch((err) => {
         console.log(err.message);
