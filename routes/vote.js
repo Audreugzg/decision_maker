@@ -39,7 +39,6 @@ module.exports = (db) => {
     let poll_key = { poll_key: req.body.key };
     const choices = req.body.optionOrders;
     let length = choices.length;
-    // for await (const item of choices) {
     choices.forEach(async (item) => {
       db.query(
         `SELECT options.id, options.title_id, users.email,
