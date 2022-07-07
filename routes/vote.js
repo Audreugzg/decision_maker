@@ -62,41 +62,41 @@ module.exports = (db) => {
         ).catch((err) => {
           res.status(500).json({ error: err.message });
         });
-        // if (length > 1) {
-        //   length = length - 1;
-        // } else {
-        //   var transport = nodemailer.createTransport({
-        //     host: "smtp.zoho.com",
-        //     port: 465,
-        //     secure: true, //ssl
-        //     auth: {
-        //       user: process.env.EMAIL,
-        //       pass: process.env.PASSWORD,
-        //     },
-        //   });
+        if (length > 1) {
+          length = length - 1;
+        } else {
+          var transport = nodemailer.createTransport({
+            host: "smtp.zoho.com",
+            port: 465,
+            secure: true, //ssl
+            auth: {
+              user: process.env.EMAIL,
+              pass: process.env.PASSWORD,
+            },
+          });
 
-        //   var mailOptions = {
-        //     from: "decisionmakerapp007@zohomail.com",
-        //     to: email,
-        //     subject: `your friends just v  console.log(optionOrders);oted on your poll`,
-        //     text: `
-        //     Hello!
-        //     your friend has just voted on your poll: ${title}. Click below to see the updated results.
-        //     Admin Link: http://localhost:8080/api/result/${poll_key.poll_key}
-        //     Share the link below to get more responses.
-        //     Voting Link: http://localhost:8080/api/vote/${poll_key.poll_key}
-        //     Thank you!`,
-        //   };
-        //   transport.sendMail(mailOptions, function (error, info) {
-        //     if (error) {
-        //       console.log(error);
-        //     } else {
-        //       console.log("Email sent: " + info.response);
-        //     }
-        //   });
-        //   console.log('1LETS REDIRECCT TO /TEST')
-        //   return res.render('test');
-        // }
+          var mailOptions = {
+            from: "decisionmakerapp007@zohomail.com",
+            to: email,
+            subject: `your friends just v  console.log(optionOrders);oted on your poll`,
+            text: `
+            Hello!
+            your friend has just voted on your poll: ${title}. Click below to see the updated results.
+            Admin Link: http://localhost:8080/api/result/${poll_key.poll_key}
+            Share the link below to get more responses.
+            Voting Link: http://localhost:8080/api/vote/${poll_key.poll_key}
+            Thank you!`,
+          };
+          transport.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log("Email sent: " + info.response);
+            }
+          });
+          console.log('1LETS REDIRECCT TO /TEST')
+          return res.render('test');
+        }
       }).catch((err) => {
         console.log(err.message);
       });
