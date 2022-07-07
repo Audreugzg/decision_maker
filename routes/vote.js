@@ -104,7 +104,7 @@ module.exports = (db) => {
         console.log(err.message);
       });
     })
-    // res.render('results', {key: 'rende result page'});
+    res.render('results', {key: 'rende result page'});
   });
   return router;
 };
