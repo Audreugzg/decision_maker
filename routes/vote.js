@@ -39,6 +39,11 @@ module.exports = (db) => {
     let poll_key = { poll_key: req.body.key };
     const choices = req.body.optionOrders;
     let length = choices.length;
+    let optionsindices = [];
+    for (item of choices) {
+      optionsindices.push(choices.indexOf(item));
+    }
+    const scores = optionsindices.reverse();
     choices.forEach(async (item) => {
       db.query(
         `SELECT options.id, options.title_id, users.email,
@@ -51,9 +56,9 @@ module.exports = (db) => {
       ).then((data) => {
         const optionId = data.rows[0].id;
         const titleID = data.rows[0].title_id;
-        const score = choices.indexOf(item);
         const email = data.rows[0].email;
         const title = data.rows[0].title;
+        const score = scores[choices.indexOf(item)];
         db.query(
           `INSERT INTO choices
         (option_id, title_id, score) VALUES ($1, $2, $3);`,
@@ -99,7 +104,7 @@ module.exports = (db) => {
         console.log(err.message);
       });
     })
-    res.render('results', {key: 'rende result page'});
+    // res.render('results', {key: 'rende result page'});
   });
   return router;
 };
