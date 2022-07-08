@@ -41,7 +41,6 @@ module.exports = (db) => {
     console.log(poll_key);
     // const choices = req.body.optionOrders;
     //let length = choices.length;
-
       db.query(
         `SELECT users.email,titles.title
         FROM users

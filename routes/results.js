@@ -104,15 +104,6 @@ module.exports = (db) => {
       }
       console.log('per',percent);
 
-
-
-
-
-
-
-
-
-
       const info = {
         title: title,
         options: uniqueOp,
