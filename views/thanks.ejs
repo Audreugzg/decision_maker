@@ -7,15 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Decision Maker</title>
 
-
-  <%# INTERNAL CSS %>
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
   <link rel="stylesheet" href="/styles/form-styles.css" type="text/css" />
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/nav-styles.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/footer-styles.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/results-styles.css" type="text/css" />
 
 
   <%# EXTERNAL LINKS %>
@@ -36,35 +31,17 @@
 <body>
   <nav class="nav-class">
     <ul>
-      <li><a href="/api/users">Home</a></li>
-      <li><a href="/api/users#create-id">Create</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="#name-id"  id="nav-create-link">Create</a></li>
       <li><a href="#">Results</a></li>
       <li><a href="#">About Us</a></li>
     </ul>
   </nav>
   <main class="main-class-container">
-
-    <h1> Which poll you want to see the results?   </h1>
-    <input type="text" placeholder="code here">
-    <button> See it here! </button>
-
-
-    <div class="results-container" id="tall">
-      <h1> Results for: <%= title %> Poll</h1>
-
-      <div class="bar-chart-div">
-
-        <div class="option-div">
-          <div class="option-with-percentage">
-            <span class="option-span"><%= options %>  </span>
-            <span class="percentage">50%</span>
-          </div>
-          <span class="bar-span"> ................</span>
-        </div>
-
-
-
-      </div>
+ <div>
+  <h1>The poll has been successfully submitted!</h1>
+  <p>View the latest result:<a href="http://localhost:8080/polls/<%= poll_key %>"> Administrative link</a></p>
+  <p>Share with friends to vote:<a href="http://localhost:8080/api/vote/<%= poll_key %>"> Access the vote</a></p>
  </div>
   </main>
 

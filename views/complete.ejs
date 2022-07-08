@@ -45,10 +45,10 @@
   <main class="main-class-container">
  <div class="submitted-pool-msg">
   <h1>The poll has been successfully submitted!</h1>
-  <li> View the results of your poll: <br> &#128073 <a href="http://localhost:8080/polls/<%= poll_key %>">  Administrative link!</a></li>
+  <li> View the results of your poll: <br> &#128073 <a href="http://localhost:8080/api/results/<%= poll_key %>">  Administrative link!</a></li>
   <li> Share the link with your friends to vote: <br> &#128073 <a href="http://localhost:8080/api/vote/<%= poll_key %>">  Access the vote page!</a></li>
-  <li class="justify-li"> or give them the code <span class="code-here">[code here]</span> to acess the vote page and get track of the result! </li>
-  <a class="create-another-poll" href="">Create another Pool!!</a> <p> Here we make a rout to use the e-mail that the user has alredy given and redirect to the page of creating the options</p>
+  <li class="justify-li"> or give them the code <span class="code-here"><%= poll_key %></span> to acess the vote page and get track of the result! </li>
+  <a class="create-another-poll" href="/api/users#create-id">Create another Pool!!</a> <p> Here we make a rout to use the e-mail that the user has alredy given and redirect to the page of creating the options</p>
  </div>
   </main>
 

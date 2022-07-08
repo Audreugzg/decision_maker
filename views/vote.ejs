@@ -41,6 +41,7 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/vote-styles.js"></script>
+
   </head>
 
   <body>
@@ -55,11 +56,11 @@
 
     <main class="main-class-container">
 
-      <form class="pollSubmission" method="GET" action="/test">
+      <form action="/api/vote/<%= poll_key %>" method="post" class="pollSubmission" >
         <div class="options-container-test">
           <div class="options-title"><%= title %></div>
 
-          <div class="options-container-test-drag" name="op" id="insert-description" >
+          <div class="options-container-test-drag" id="insert-description" >
             <% for (let i = 0; i < questions.length; i++) { %>
 
               <div data-option="<%= questions[i] %>" class="options-test draggable" draggable="true">
@@ -69,7 +70,7 @@
           </div>
 
           <div>
-            <button class="sub-btn-rank" type="submit">Submit</button>
+            <button id = "submit" class="sub-btn-rank" type="submit">Submit</button>
           </div>
         </div>
       </form>

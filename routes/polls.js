@@ -10,9 +10,7 @@ module.exports = (db) => {
         res.render("form",poll_key);
       })
   });
-
   router.post("/:key", (req, res) => {
-    console.log(req.body);
     let title = req.body.title;
     let poll_key = {poll_key:req.params.key};
     let options = req.body.op;
@@ -21,14 +19,13 @@ module.exports = (db) => {
     WHERE users.poll_key = $1;`,[poll_key.poll_key])
     .then(data => {
       const id = data.rows[0].id;
-      poll_key={...poll_key,user_id:parseInt(id)};
+      poll_key={...poll_key,user_id:id};
+      console.log(poll_key)
       return db
       .query(`INSERT INTO titles(title,user_id)
                VALUES($1,$2)
                RETURNING *;`, [title,poll_key.user_id])
       .then((result) => {
-        console.log(result.rows);
-        console.log(options);
         if (!Array.isArray(options)) {
           return db
           .query(`INSERT INTO options(user_id,title_id,choice,description)

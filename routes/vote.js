@@ -5,6 +5,7 @@ var nodemailer = require("nodemailer");
 module.exports = (db) => {
   router.get("/:key", (req, res) => {
     let poll_key = { poll_key: req.params.key };
+    //console.log(poll_key);
     db.query(
       `SELECT titles.title, options.choice,options.description
     FROM options
@@ -20,56 +21,46 @@ module.exports = (db) => {
         question.push(i.choice);
         description.push(i.description);
       }
-      console.log(title);
-      console.log(question);
+      //console.log(title);
+      //console.log(question);
       const info = {
         title: title,
         questions: question,
         description: description,
         poll_key: poll_key.poll_key,
       };
-      console.log(info);
+      //console.log(info);
       //res.json({ info });
       res.render("vote", info);
     });
   });
 
   router.post("/:key", (req, res) => {
-    console.log(req.body);
-    let poll_key = { poll_key: req.body.key };
-    const choices = req.body.optionOrders;
-    let length = choices.length;
-    let optionsindices = [];
-    for (item of choices) {
-      optionsindices.push(choices.indexOf(item));
-    }
-    const scores = optionsindices.reverse();
-    choices.forEach(async (item) => {
+    console.log("request body",req.body);
+    let poll_key = { poll_key: req.params.key };
+    console.log(poll_key);
+    // const choices = req.body.optionOrders;
+    //let length = choices.length;
+
       db.query(
-        `SELECT options.id, options.title_id, users.email,
-        titles.title
+        `SELECT users.email,titles.title
         FROM users
         JOIN titles ON users.id = titles.user_id
-        JOIN options ON titles.id = title_id
-        WHERE options.choice = $1 AND poll_key = $2;`,
-          [item, poll_key.poll_key]
+        WHERE users.poll_key = $1 ;`,
+          [poll_key.poll_key]
       ).then((data) => {
-        const optionId = data.rows[0].id;
-        const titleID = data.rows[0].title_id;
+        // const optionId = data.rows[0].id;
+        // const titleID = data.rows[0].title_id;
+        // const score = choices.indexOf(item);
+        // console.log("id",optionId);
+        // console.log('title',titleID);
+        //console.log(data);
         const email = data.rows[0].email;
         const title = data.rows[0].title;
-        const score = scores[choices.indexOf(item)];
-        db.query(
-          `INSERT INTO choices
-        (option_id, title_id, score) VALUES ($1, $2, $3);`,
-          [optionId, titleID, score]
-        ).catch((err) => {
-          res.status(500).json({ error: err.message });
-        })
+        console.log(email);
 
-        if (length > 1) {
-          length = length - 1;
-        } else {
+
+
           var transport = nodemailer.createTransport({
             host: "smtp.zoho.com",
             port: 465,
@@ -99,12 +90,10 @@ module.exports = (db) => {
               console.log("Email sent: " + info.response);
             }
           });
-        }
-      }).catch((err) => {
-        console.log(err.message);
+
       });
-    })
-    res.render('results', {key: 'rende result page'});
+
+     res.render('complete',poll_key);
   });
   return router;
 };

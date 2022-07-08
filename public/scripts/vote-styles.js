@@ -1,29 +1,4 @@
 $(document).ready(function () {
-  $(".pollSubmission").submit(function (e) {
-    e.preventDefault();
-    const optionOrders = [];
-    $(this)
-      .find(".options-test")
-      .each(function (i, optionElement) {
-        console.log($(optionElement).data("option"));
-        optionOrders.push($(optionElement).data("option"));
-      });
-    const pageUrl = $(location).attr("href").split("/");
-    const key = pageUrl[5];
-    $.ajax({
-      type: "POST",
-      url: "/api/vote/:key",
-      data: { optionOrders, key },
-      dataType: "json",
-    }).catch(function (data) {if (data.statusText === 'OK') {window.location.href="/results"}});
-    // }).done(function (data) {
-    //   debugger;
-    //   // window.location.href = "/test";
-    // }).fail(function (err) {
-    //   debugger;
-    //   console.log("fail-in-ajax");
-    // });
-  });
 
   ///// FUNCTIONALITY OF DRAG AND DROP //////
 
@@ -69,7 +44,7 @@ $(document).ready(function () {
       },
       { offset: Number.NEGATIVE_INFINITY }
     ).element;
-  }
+  };
 
   const allMovies = document.querySelectorAll("div.options-test");
   const allDescriptions = document.querySelectorAll(".description-fade");
